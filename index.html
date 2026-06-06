@@ -40,8 +40,8 @@
     let mediaRecorder;
     let socket;
     
-    // ⚠️ আপনার রেন্ডার ব্যাকএন্ড ইউআরএলটি (https:// ছাড়া) নিচের লাইনে বসাবেন
-    const BACKEND_URL = "YOUR_RENDER_URL_HERE.onrender.com"; 
+    // 🔗 এখানে আপনার রেন্ডার ব্যাকএন্ডের লিঙ্কটি সফলভাবে বসানো হয়েছে
+    const BACKEND_URL = "lohagara-tv-backend.onrender.com"; 
 
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
@@ -103,7 +103,7 @@
             preview.srcObject.getTracks().forEach(track => track.stop());
             preview.srcObject = null;
         }
-        statusDiv.innerText = "অবстая: অফলাইন";
+        statusDiv.innerText = "অবস্থা: অফলাইন";
         statusDiv.style.color = "#94a3b8";
         startBtn.disabled = false;
         stopBtn.disabled = true;
