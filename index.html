@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লোহাগাড়া টেলিভিশন স্টুডিও - লাইভ স্ট্রিমার</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #0f172a; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: #f8fafc; }
+        .container { background-color: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; width: 90%; max-width: 500px; }
+        input { width: 95%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #475569; background: #334155; color: white; outline: none; }
+        input:focus { border-color: #38bdf8; }
+        video { width: 100%; border-radius: 8px; background: #000; margin: 15px 0; }
+        .btn-group { display: flex; justify-content: center; gap: 15px; }
+        button { padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; border: none; cursor: pointer; transition: all 0.2s; }
+        #startBtn { background: #0284c7; color: white; }
+        #stopBtn { background: #dc2626; color: white; }
+        button:disabled { background: #64748b !important; cursor: not-allowed; }
+        #status { margin-top: 15px; font-weight: bold; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>লোহাগাড়া টেলিভিশন স্টুডিও 🎥</h2>
+    <p style="color: #94a3b8; margin-top: -10px;">লাইভ সম্প্রচার কন্ট্রোল প্যানেল</p>
+    
+    <input type="text" id="streamUrl" placeholder="Stream URL (যেমন: rtmp://...)">
+    <input type="password" id="streamKey" placeholder="Stream Key (ফেসবুক বা ইউটিউবের কি)">
+    
+    <video id="preview" autoplay muted controls></video>
+    
+    <div class="btn-group">
+        <button id="startBtn">লাইভ শুরু করুন 🔴</button>
+        <button id="stopBtn" disabled>লাইভ বন্ধ করুন ⏹️</button>
+    </div>
+    <div id="status">অবস্থা: অফলাইন</div>
+</div>
+
+<script>
+    let mediaRecorder;
+    let socket;
+    
+    // ⚠️ আপনার রেন্ডার ব্যাকএন্ড ইউআরএলটি (https:// ছাড়া) নিচের লাইনে বসাবেন
+    const BACKEND_URL = "YOUR_RENDER_URL_HERE.onrender.com"; 
+
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const preview = document.getElementById('preview');
+    const statusDiv = document.getElementById('status');
+
+    startBtn.addEventListener('click', async () => {
+        const streamUrl = document.getElementById('streamUrl').value;
+        const streamKey = document.getElementById('streamKey').value;
+
+        if (!streamUrl || !streamKey) {
+            alert("দয়া করে Stream URL এবং Stream Key দুটিই সঠিকভাবে দিন।");
+            return;
+        }
+
+        try {
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: { width: 1280, height: 720, frameRate: 30 },
+                audio: true
+            });
+            preview.srcObject = stream;
+            statusDiv.innerText = "অবস্থা: কানেক্ট হচ্ছে...";
+
+            socket = new WebSocket(`wss://${BACKEND_URL}?url=${encodeURIComponent(streamUrl)}&key=${encodeURIComponent(streamKey)}`);
+
+            socket.onopen = () => {
+                statusDiv.innerText = "অবস্থা: লাইভ সম্প্রচার চলছে! 🔴";
+                statusDiv.style.color = "#ef4444";
+
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm; codecs=vp9',
+                    videoBitsPerSecond: 2000000 
+                });
+
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0 && socket.readyState === WebSocket.OPEN) {
+                        socket.send(e.data);
+                    }
+                };
+                mediaRecorder.start(1000);
+            };
+
+            socket.onclose = () => { stopLive(); };
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+
+        } catch (err) {
+            console.error(err);
+            alert("লাইভ শুরু করা যায়নি। ব্রাউজারের পারমিশন চেক করুন।");
+        }
+    });
+
+    stopBtn.addEventListener('click', () => { stopLive(); });
+
+    function stopLive() {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") { mediaRecorder.stop(); }
+        if (socket) { socket.close(); }
+        if (preview.srcObject) {
+            preview.srcObject.getTracks().forEach(track => track.stop());
+            preview.srcObject = null;
+        }
+        statusDiv.innerText = "অবстая: অফলাইন";
+        statusDiv.style.color = "#94a3b8";
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+    }
+</script>
+</body>
+</html>
