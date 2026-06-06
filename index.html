@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>লোহাগাড়া টিভি স্টুডিও</title>
+<title>লোহাগাড়া টিভি স্টুডিও - ইমেজ লোগো সহ</title>
 <style>
 *{ box-sizing:border-box; }
 html,body{ margin:0; width:100%; height:100%; overflow:hidden; background:#000; font-family:sans-serif; color:#fff; }
@@ -16,52 +16,71 @@ html,body{ margin:0; width:100%; height:100%; overflow:hidden; background:#000; 
 .progress-fill{ width:0%; height:100%; background:#0a84ff; animation:load 5s linear forwards; }
 @keyframes load{ to{ width:100%; } }
 
-.video-container{ position:fixed; inset:0; width:100%; height:100%; background:#000; }
+/* 📺 ভিডিও কন্টেইনার */
+.video-container{ position:fixed; top:0; left:0; width:100%; bottom:106px; background:#000; z-index: 10; }
 #camera_feed{ width:100%; height:100%; object-fit:cover; background:#000; transition:transform .3s; }
-.ch-info{ position:fixed; top:10px; left:10px; z-index:30; pointer-events:none; }
-.ch-name{ font-size:18px; font-weight:bold; color:#ff00ff; text-shadow:1px 1px 2px #000; }
+
+/* 🏷️ চ্যানেল ইনফো ও গ্যালারি ইমেজ লোগো (বামপাশে) */
+.ch-info{ position:fixed; top:15px; left:15px; z-index:30; pointer-events:none; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.ch-logo-img{ max-width: 80px; max-height: 50px; object-fit: contain; display: none; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8)); }
+.ch-name{ font-size:18px; font-weight:bold; color:#ff00ff; text-shadow:2px 2px 3px #000; }
 .ch-loc{ font-size:11px; margin-top:2px; color:#ffff00; text-shadow:1px 1px 2px #000; }
-#recIndicator{ position:fixed; top:10px; right:10px; z-index:30; color:red; font-weight:bold; font-size:14px; display:none; animation:blink 1s infinite; }
+
+#recIndicator{ position:fixed; top:15px; right:15px; z-index:30; color:red; font-weight:bold; font-size:13px; display:none; animation:blink 1s infinite; text-shadow:1px 1px 2px #000; }
 @keyframes blink{ 50%{ opacity:0; } }
 
-.live-wrapper{ position:fixed; bottom:45px; left:0; width:100%; background:rgba(0,0,0,.7); padding:3px 5px; display:flex; align-items:center; z-index:25; height:30px; }
-.live-tag{ background:red; color:#fff; font-size:10px; font-weight:bold; padding:2px 5px; border-radius:3px; margin-right:5px; }
-.news-area{ flex:1; overflow:hidden; }
-#headlineText{ color:#00ff00; font-size:12px; }
-.time-date{ min-width:90px; margin-left:5px; background:#004cff; border-radius:3px; padding:2px 4px; text-align:center; }
-#clock{ font-size:11px; font-weight:bold; }
-#date{ font-size:9px; }
+/* স্ক্রিন পপ-আপ ওভারলে */
+.overlay-banner { position: fixed; left: 5%; width: 90%; z-index: 28; text-align: center; padding: 10px; border-radius: 6px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.6); display: none; }
+#breakingBanner { top: 20%; background: linear-gradient(90deg, #ff0000, #b30000); border: 1px solid #fff; font-size: 18px; color: #fff; }
+#adBanner { bottom: 115px; background: linear-gradient(90deg, #1e3a8a, #0f172a); border: 1px solid #38bdf8; font-size: 14px; color: #ccfbf1; }
 
-.controls{ position:fixed; bottom:0; left:0; width:100%; background:#111; display:grid; grid-template-columns:repeat(8,1fr); gap:2px; padding:2px; z-index:40; }
-.btn{ border:none; background:#222; color:#fff; padding:8px 2px; border-radius:4px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+/* 🚨 চলমান হেডলাইন এবং ঘড়ি বার */
+.live-wrapper{ position:fixed; bottom:72px; left:0; width:100%; background:rgba(0,0,0,.9); padding:0 5px; display:flex; align-items:center; z-index:50; height:34px; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+.live-tag{ background:red; color:#fff; font-size:10px; font-weight:bold; padding:2px 5px; border-radius:3px; margin-right:6px; box-shadow: 0 0 4px red; text-align: center; }
+.news-area{ flex:1; overflow:hidden; display:flex; align-items:center; }
+#headlineText{ color:#00ff00; font-size:13px; font-weight: bold; white-space: nowrap; margin: 0; padding: 0; }
+.time-date{ min-width:85px; margin-left:5px; background:#004cff; border-radius:3px; padding:2px; text-align:center; height: 26px; display: flex; flex-direction: column; justify-content: center; }
+#clock{ font-size:11px; font-weight:bold; line-height: 1.1; color: #fff; }
+#date{ font-size:8px; line-height: 1.1; color: #fff; }
+
+/* 🎛️ কন্ট্রোল প্যানেল গ্রিড */
+.controls{ position:fixed; bottom:0; left:0; width:100%; background:#111; display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows: repeat(2, 1fr); gap:2px; padding:2px; z-index:55; height:72px; }
+.btn{ border:none; background:#222; color:#fff; padding:0; border-radius:3px; font-size:11px; cursor:pointer; display:flex; flex-direction: row; align-items:center; justify-content:center; gap: 4px; height: 100%; }
 .btn:active{ transform:scale(.95); }
-.btn.active{ background:red; }
-#liveBtn { font-weight: bold; background: #0284c7; font-size: 11px; }
-#liveBtn.streaming-active { background: red !important; }
+.btn.active{ background:red !important; }
+#liveBtn { font-weight: bold; background: #0284c7; }
+#liveBtn.streaming-active { background: red !important; box-shadow: 0 0 5px red; }
+.btn-orange { background: #ea580c; }
+.btn-purple { background: #7c3aed; }
 
-/* সেটিংস প্যানেল স্ক্রল করার সুবিধাসহ */
-.settings-panel{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:90%; max-width:320px; max-height: 85vh; overflow-y: auto; background:#111; border-radius:10px; padding:12px; z-index:999; display:none; box-shadow:0 0 10px rgba(0,0,0,.5); }
-.settings-panel h3{ margin-top:0; font-size:16px; text-align:center; border-bottom: 1px solid #333; padding-bottom: 5px; }
+/* সেটিংস প্যানেল */
+.settings-panel{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:90%; max-width:330px; max-height: 80vh; overflow-y: auto; background:#111; border-radius:10px; padding:15px; z-index:999; display:none; box-shadow:0 0 15px rgba(0,0,0,.8); border: 1px solid #333; }
+.settings-panel h3{ margin-top:0; font-size:16px; text-align:center; border-bottom: 1px solid #333; padding-bottom: 8px; color: #38bdf8; }
 .settings-panel input{ width:100%; margin-bottom:8px; border:none; border-radius:4px; padding:8px; background:#222; color:#fff; font-size:12px; }
+.settings-panel input[type="file"] { background: #1e293b; color: #38bdf8; cursor: pointer; }
 .settings-panel label{ display:block; font-size:11px; margin-bottom:3px; color: #94a3b8; }
-.settings-panel button{ width:100%; border:none; border-radius:4px; padding:8px; margin-top:5px; cursor:pointer; color:#fff; background:#0a84ff; font-size:13px; }
+.settings-panel button{ width:100%; border:none; border-radius:4px; padding:9px; margin-top:5px; cursor:pointer; color:#fff; background:#0a84ff; font-size:13px; font-weight: bold; }
 .close-btn{ background:red !important; }
-.settings-section-title { font-size: 12px; font-weight: bold; margin: 10px 0 5px 0; color: #38bdf8; border-top: 1px solid #222; padding-top: 5px; }
+.settings-section-title { font-size: 11px; font-weight: bold; margin: 10px 0 5px 0; color: #38bdf8; border-top: 1px solid #222; padding-top: 5px; }
 </style>
 </head>
 <body>
 
 <div id="launcher">
-    <div class="loading-text">LOHAGARA TV</div>
+    <div class="loading-text">LOHAGARA TV STUDIO</div>
     <div class="progress-bar"><div class="progress-fill"></div></div>
 </div>
 
 <div class="ch-info">
+    <img id="logoPreview" class="ch-logo-img" src="" alt="Logo">
     <div class="ch-name" id="channelName">লোহাগাড়া টিভি</div>
     <div class="ch-loc" id="channelLocation">লোহাগাড়া, চট্টগ্রাম</div>
 </div>
 
 <div id="recIndicator">REC ●</div>
+
+<div class="overlay-banner" id="breakingBanner">🚨 ব্রেকিং নিউজ: לוהাগাড়া টিভির লাইভ সম্প্রচার চলছে!</div>
+<div class="overlay-banner" id="adBanner">📢 স্পনসর বিজ্ঞাপন: আপনার বিজ্ঞাপনের জন্য যোগাযোগ করুন।</div>
 
 <div class="live-wrapper">
     <div class="live-tag">LIVE</div>
@@ -79,14 +98,24 @@ html,body{ margin:0; width:100%; height:100%; overflow:hidden; background:#000; 
 </div>
 
 <div class="settings-panel" id="settingsPanel">
-    <h3>স্টুডিও সেটিংস ⚙️</h3>
+    <h3>স্টুডিও কন্ট্রোল সেটিংস ⚙️</h3>
     
-    <div class="settings-section-title">চ্যানেল ইনফো</div>
+    <div class="settings-section-title">চ্যানেল ও লোগো আপলোড</div>
+    <label>চ্যানেল লোগো ইমেজ (গ্যালারি থেকে সিলেক্ট করুন)</label>
+    <input type="file" id="logoFileInput" accept="image/*" onchange="previewImage(this)">
+    
+    <label>চ্যানেলের নাম</label>
     <input type="text" id="nameInput" placeholder="চ্যানেলের নাম">
+    <label>লোকেশন</label>
     <input type="text" id="locationInput" placeholder="লোকেশন">
-    <input type="text" id="headlineInput" placeholder="হেডলাইন">
+    <label>নিচের স্ক্রলিং হেডলাইন</label>
+    <input type="text" id="headlineInput" placeholder="নিচের স্ক্রলিং হেডলাইন">
     
-    <div class="settings-section-title">লাইভ স্ট্রিম সেটিংস (Facebook/YouTube)</div>
+    <div class="settings-section-title">ব্রেকিং ও অ্যাড টেক্সট</div>
+    <input type="text" id="breakingTextInput" placeholder="ব্রেকিং নিউজ লেখা">
+    <input type="text" id="adTextInput" placeholder="বিজ্ঞাপন টেক্সট">
+
+    <div class="settings-section-title">লাইভ স্ট্রিম কনফিগারেশন</div>
     <input type="text" id="streamUrlInput" placeholder="Stream URL (rtmp://...)">
     <input type="password" id="streamKeyInput" placeholder="Stream Key">
 
@@ -95,22 +124,23 @@ html,body{ margin:0; width:100%; height:100%; overflow:hidden; background:#000; 
     <input type="color" id="nameColorInput" value="#ff00ff">
     <label>লোকেশন কালার</label>
     <input type="color" id="locationColorInput" value="#ffff00">
-    <label>হেডলাইন কালার</label>
-    <input type="color" id="headlineColorInput" value="#00ff00">
     
-    <button onclick="saveSettings()">সেভ করুন</button>
+    <button onclick="saveSettings()">সব সংরক্ষণ করুন</button>
     <button class="close-btn" onclick="closeSettings()">বন্ধ করুন</button>
 </div>
 
 <div class="controls">
-    <button class="btn" onclick="switchCam()">🔄</button>
-    <button class="btn" onclick="flipCam()">🪞</button>
-    <button class="btn" onclick="zoomIn()">➕</button>
-    <button class="btn" onclick="zoomOut()">➖</button>
-    <button class="btn" id="recBtn" onclick="toggleRec()">⏺️</button>
-    <button class="btn" id="liveBtn" onclick="toggleLiveStream()">LIVE 🔴</button> 
-    <button class="btn" onclick="toggleFS()">⛶</button>
-    <button class="btn" onclick="openSettings()">⚙️</button>
+    <button class="btn" onclick="switchCam()">🔄 <span>ক্যামেরা</span></button>
+    <button class="btn" onclick="flipCam()">🪞 <span>মিরর</span></button>
+    <button class="btn" onclick="zoomIn()">➕ <span>জুম +</span></button>
+    <button class="btn" onclick="zoomOut()">➖ <span>জুম -</span></button>
+    <button class="btn" onclick="toggleFS()">⛶ <span>ফুলস্ক্রিন</span></button>
+    
+    <button class="btn btn-orange" id="breakingBtn" onclick="toggleBreaking()">🚨 <span>Breaking</span></button>
+    <button class="btn btn-purple" id="adBtn" onclick="toggleAd()">📢 <span>AD</span></button>
+    <button class="btn" id="recBtn" onclick="toggleRec()">⏺️ <span>রেকর্ড</span></button>
+    <button class="btn" id="liveBtn" onclick="toggleLiveStream()">🔴 <span>LIVE</span></button> 
+    <button class="btn" onclick="openSettings()">⚙️ <span>সেটিংস</span></button>
 </div>
 
 <script>
@@ -122,13 +152,15 @@ let flipped = false;
 let recorder;
 let chunks = [];
 
-// লাইভ স্ট্রিমিং ভেরিয়েবলসমূহ
 let mediaRecorder;
 let socket;
-const BACKEND_URL = "lohagara-tv-backend.onrender.com"; // আপনার সফলভাবে তৈরি হওয়া রেন্ডার লিঙ্ক
+const BACKEND_URL = "lohagara-tv-backend.onrender.com"; 
 let isStreaming = false;
 
-// ৫ সেকেন্ড পর অটো স্টার্ট
+let isBreakingActive = false;
+let isAdActive = false;
+let base64Logo = ""; // লোগো ডাটা রাখার ভেরিয়েবল
+
 setTimeout(() => {
     document.getElementById('launcher').style.opacity = '0';
     setTimeout(() => {
@@ -145,12 +177,51 @@ async function initCam(){
             audio:true
         });
         video.srcObject = currentStream;
-    } catch(err){ alert("ক্যামেরা চালু করা যায়নি"); }
+    } catch(err){ alert("ক্যামেরা চালু করা যায়নি।"); }
 }
 
 function switchCam(){
     facing = facing === 'user' ? 'environment' : 'user';
     initCam();
+}
+
+// ইমেজ প্রিভিউ ফাংশন
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            base64Logo = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function toggleBreaking() {
+    const banner = document.getElementById('breakingBanner');
+    const btn = document.getElementById('breakingBtn');
+    isBreakingActive = !isBreakingActive;
+    if(isBreakingActive) {
+        banner.innerText = localStorage.getItem('breakingText') || "🚨 ব্রেকিং নিউজ: লোহাগাড়া টিভির লাইভ সম্প্রচার চলছে!";
+        banner.style.display = 'block';
+        btn.classList.add('active');
+    } else {
+        banner.style.display = 'none';
+        btn.classList.remove('active');
+    }
+}
+
+function toggleAd() {
+    const banner = document.getElementById('adBanner');
+    const btn = document.getElementById('adBtn');
+    isAdActive = !isAdActive;
+    if(isAdActive) {
+        banner.innerText = localStorage.getItem('adText') || "📢 স্পনসর বিজ্ঞাপন: আপনার বিজ্ঞাপনের জন্য যোগাযোগ করুন।";
+        banner.style.display = 'block';
+        btn.classList.add('active');
+    } else {
+        banner.style.display = 'none';
+        btn.classList.remove('active');
+    }
 }
 
 function toggleRec(){
@@ -163,7 +234,7 @@ function toggleRec(){
             let blob = new Blob(chunks,{ type:'video/webm' });
             let a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'live_recording.webm';
+            a.download = 'studio_recording.webm';
             a.click();
         };
         recorder.start();
@@ -176,36 +247,31 @@ function toggleRec(){
     }
 }
 
-// 🔴 ফেসবুক/ইউটিউবে লাইভ সম্প্রচার কন্ট্রোল ফাংশন
 function toggleLiveStream() {
     const liveBtn = document.getElementById('liveBtn');
     const headline = document.getElementById('headlineText');
     
     if (!isStreaming) {
-        // সেটিংস বা লোকাল স্টোরেজ থেকে ডেটা নেওয়া
         const streamUrl = localStorage.getItem('streamUrl') || document.getElementById('streamUrlInput').value;
         const streamKey = localStorage.getItem('streamKey') || document.getElementById('streamKeyInput').value;
 
         if (!streamUrl || !streamKey) {
-            alert("দয়া করে সেটিংস (⚙️) আইকনে ক্লিক করে Stream URL এবং Stream Key দুটি সেভ করে নিন।");
+            alert("দয়া করে সেটিংস (⚙️) থেকে Stream URL এবং Key দুটি সেট করে নিন।");
             openSettings();
             return;
         }
 
         try {
-            headline.innerText = "কানেক্ট হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।";
-            
-            // ব্যাকএন্ড সার্ভারের সাথে যোগাযোগ স্থাপন
+            headline.innerText = "সার্ভারের সাথে কানেক্ট হচ্ছে...";
             socket = new WebSocket(`wss://${BACKEND_URL}?url=${encodeURIComponent(streamUrl)}&key=${encodeURIComponent(streamKey)}`);
 
             socket.onopen = () => {
-                headline.innerText = "🔴 লোহাগাড়া টিভির লাইভ সম্প্রচার সরাসরি চলছে...";
+                headline.innerText = "🔴 লোহাগাড়া টিভির লাইভ সম্প্রচার সরাসরি সম্প্রচারিত হচ্ছে...";
                 headline.style.color = "#ff0000";
                 liveBtn.classList.add('streaming-active');
-                liveBtn.innerText = "STOP ⏹️";
+                liveBtn.innerHTML = "⏹️ <span>STOP</span>";
                 isStreaming = true;
 
-                // ক্যামেরা বা স্ক্রিনের ডাটা ক্যাপচার করে ব্যাকএন্ডে পাঠানো
                 mediaRecorder = new MediaRecorder(currentStream, {
                     mimeType: 'video/webm; codecs=vp9',
                     videoBitsPerSecond: 2000000 
@@ -220,11 +286,10 @@ function toggleLiveStream() {
             };
 
             socket.onclose = () => { stopLiveStream(); };
-            socket.onerror = () => { alert("সার্ভার কানেকশন এরর! রেন্ডার সার্ভার চালু আছে কি না নিশ্চিত হোন।"); stopLiveStream(); };
+            socket.onerror = () => { alert("কানেকশন বিচ্ছিন্ন হয়েছে।"); stopLiveStream(); };
 
         } catch (err) {
-            console.error(err);
-            alert("লাইভ শুরু করা যায়নি।");
+            alert("লাইভ স্ট্রিমিং ব্যর্থ হয়েছে।");
             stopLiveStream();
         }
     } else {
@@ -240,9 +305,9 @@ function stopLiveStream() {
     if (socket) { socket.close(); }
     
     headline.innerText = localStorage.getItem('headlineText') || "লোহাগাড়া টিভির লাইভ সম্প্রচার চলছে...";
-    headline.style.color = localStorage.getItem('headlineColor') || "#00ff00";
+    headline.style.color = "#00ff00";
     liveBtn.classList.remove('streaming-active');
-    liveBtn.innerText = "LIVE 🔴";
+    liveBtn.innerHTML = "🔴 <span>LIVE</span>";
     isStreaming = false;
 }
 
@@ -254,7 +319,6 @@ function toggleFS(){
 function applyTransform(){
     video.style.transform = (flipped ? 'scaleX(-1)' : 'scaleX(1)') + ` scale(${zoom})`;
 }
-
 function flipCam(){ flipped = !flipped; applyTransform(); }
 function zoomIn(){ zoom += .1; applyTransform(); }
 function zoomOut(){ zoom = Math.max(1, zoom - .1); applyTransform(); }
@@ -273,7 +337,8 @@ function openSettings(){
     document.getElementById('locationInput').value = document.getElementById('channelLocation').innerText;
     document.getElementById('headlineInput').value = document.getElementById('headlineText').innerText;
     
-    // স্ট্রিম সেটিংস লোড করা
+    document.getElementById('breakingTextInput').value = localStorage.getItem('breakingText') || '';
+    document.getElementById('adTextInput').value = localStorage.getItem('adText') || '';
     document.getElementById('streamUrlInput').value = localStorage.getItem('streamUrl') || '';
     document.getElementById('streamKeyInput').value = localStorage.getItem('streamKey') || '';
 }
@@ -284,13 +349,18 @@ function saveSettings(){
     localStorage.setItem('channelLocation', document.getElementById('locationInput').value);
     localStorage.setItem('headlineText', document.getElementById('headlineInput').value);
     
-    // স্ট্রিম ডাটা লোকাল স্টোরেজে সেভ করা
+    localStorage.setItem('breakingText', document.getElementById('breakingTextInput').value);
+    localStorage.setItem('adText', document.getElementById('adTextInput').value);
     localStorage.setItem('streamUrl', document.getElementById('streamUrlInput').value);
     localStorage.setItem('streamKey', document.getElementById('streamKeyInput').value);
     
     localStorage.setItem('nameColor', document.getElementById('nameColorInput').value);
     localStorage.setItem('locationColor', document.getElementById('locationColorInput').value);
-    localStorage.setItem('headlineColor', document.getElementById('headlineColorInput').value);
+    
+    if(base64Logo) {
+        localStorage.setItem('channelLogoImg', base64Logo);
+    }
+    
     loadSettings();
     closeSettings();
 }
@@ -301,13 +371,21 @@ function loadSettings(){
         document.getElementById('channelLocation').innerText = localStorage.getItem('channelLocation');
         if(!isStreaming) {
             document.getElementById('headlineText').innerText = localStorage.getItem('headlineText');
-            document.getElementById('headlineText').style.color = localStorage.getItem('headlineColor');
         }
         document.getElementById('channelName').style.color = localStorage.getItem('nameColor');
         document.getElementById('channelLocation').style.color = localStorage.getItem('locationColor');
     }
+    
+    // ইমেজ লোগো লোড করা
+    let savedLogo = localStorage.getItem('channelLogoImg');
+    let logoPreview = document.getElementById('logoPreview');
+    if(savedLogo) {
+        logoPreview.src = savedLogo;
+        logoPreview.style.display = 'block';
+    } else {
+        logoPreview.style.display = 'none';
+    }
 }
-
 loadSettings();
 </script>
 </body>
